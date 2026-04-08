@@ -11,6 +11,7 @@ import {
 } from './components/shared/AlgorithmVisuals';
 import { DemoVisualizer } from './components/visualizers/DemoVisualizer';
 import { motion } from 'motion/react';
+import { Convolution1DVisualizer } from './components/visualizers/Convolution1DVisualizer';
 
 const Home = () => {
   const algorithms = [
@@ -126,7 +127,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* Placeholder routes for future visualizers */}
         <Route path="/waves" element={<div className="p-20 text-text-h">Wave Discretization Visualizer coming soon...</div>} />
-        <Route path="/convolution-1d" element={<div className="p-20 text-text-h">1D Convolution Visualizer coming soon...</div>} />
+        <Route path="/convolution-1d" element={<Convolution1DVisualizer />} />
         <Route path="/convolution-2d" element={<div className="p-20 text-text-h">2D Convolution Visualizer coming soon...</div>} />
         <Route path="/huffman" element={<div className="p-20 text-text-h">Huffman Coding Visualizer coming soon...</div>} />
         <Route path="/rle" element={<div className="p-20 text-text-h">Run Length Encoding Visualizer coming soon...</div>} />
