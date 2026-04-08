@@ -15,12 +15,16 @@ export const PseudocodeDisplay = ({ code, highlightedLines }: PseudocodeDisplayP
         return (
           <div
             key={index}
-            className={`relative flex py-1 px-4 transition-colors duration-200 ${
-              isHighlighted ? 'bg-accent/20 border-l-4 border-l-accent -ml-1 pl-[13px]' : ''
+            className={`relative flex py-1 px-4 transition-colors duration-200 border-l-4 ${
+              isHighlighted ? 'bg-accent/15 border-l-accent' : 'border-l-transparent'
             }`}
           >
-            <span className="w-8 text-text/40 select-none mr-2">{lineNumber}</span>
-            <pre className={`whitespace-pre ${isHighlighted ? 'text-accent font-bold' : 'text-text'}`}>
+            <span className={`w-8 select-none mr-2 transition-all ${
+              isHighlighted ? 'text-accent font-bold' : 'text-text/40'
+            }`}>
+              {lineNumber}
+            </span>
+            <pre className={`whitespace-pre transition-all ${isHighlighted ? 'text-accent font-bold' : 'text-text'}`}>
               {line}
             </pre>
             {isHighlighted && (
