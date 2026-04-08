@@ -9,9 +9,9 @@ export interface AlgorithmStep<T> {
   data: T;
 
   /**
-   * The line number in the pseudocode to highlight (1-indexed)
+   * The line numbers in the pseudocode to highlight (1-indexed)
    */
-  codeLine: number;
+  highlightedLines: number[];
 
   /**
    * A human-readable explanation of what is happening in this step
