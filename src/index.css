@@ -51,11 +51,10 @@
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   text-align: center;
-  border-inline: 1px solid var(--border);
+  /* border-inline: 1px solid var(--border); */
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -108,4 +107,39 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* Custom Progress Slider (Video Player Style) */
+input[type="range"].progress-slider {
+  --range-progress: 0%;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].progress-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, var(--accent) var(--range-progress), var(--border) var(--range-progress));
+  height: 6px;
+  border-radius: 3px;
+}
+
+input[type="range"].progress-slider::-moz-range-track {
+  background: linear-gradient(to right, var(--accent) var(--range-progress), var(--border) var(--range-progress));
+  height: 6px;
+  border-radius: 3px;
+}
+
+input[type="range"].progress-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  margin-top: -5px; /* Centers thumb on the track */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"].progress-slider:active::-webkit-slider-thumb {
+  transform: scale(1.2);
 }

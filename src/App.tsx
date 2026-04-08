@@ -9,6 +9,7 @@ import {
   RLEVisual,
   LZWVisual 
 } from './components/shared/AlgorithmVisuals';
+import { DemoVisualizer } from './components/visualizers/DemoVisualizer';
 import { motion } from 'motion/react';
 
 const Home = () => {
@@ -130,6 +131,7 @@ function App() {
         <Route path="/huffman" element={<div className="p-20 text-text-h">Huffman Coding Visualizer coming soon...</div>} />
         <Route path="/rle" element={<div className="p-20 text-text-h">Run Length Encoding Visualizer coming soon...</div>} />
         <Route path="/lzw" element={<div className="p-20 text-text-h">LZW Coding Visualizer coming soon...</div>} />
+        <Route path="/demo" element={<DemoVisualizer />} />
       </Routes>
     </BrowserRouter>
   );
