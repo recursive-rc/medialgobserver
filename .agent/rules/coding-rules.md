@@ -14,12 +14,13 @@ trigger: always_on
 
 ## Code Quality & Style
 
-- **TypeScript:** Strict mode enabled. Avoid 'any'. Use Interfaces/Types for algorithm states.
-- **Linting/Formatting:** Always adhere to ESLint and Prettier configurations.
-- **Naming:** Use descriptive camelCase for variables/functions and PascalCase for components.
-- **Modularity:** - Keep components small (<100 lines where possible).
+- TypeScript: Strict mode enabled. Avoid 'any'. Use Interfaces/Types for algorithm states.
+- Linting/Formatting: Always adhere to ESLint and Prettier configurations.
+- Naming: Use descriptive camelCase for variables/functions and PascalCase for components.
+- Modularity: - Keep components small (<100 lines where possible).
   - Extract algorithm logic into pure TypeScript utility functions or custom hooks (`/hooks`, `/utils`).
   - Separate "Visual" components from "Logic" controllers.
+  - Avoid editing files shared across different visualisations when implementing one of the visualisations.
 
 ## Project Structure
 
