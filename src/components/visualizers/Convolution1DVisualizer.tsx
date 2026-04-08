@@ -124,7 +124,7 @@ export const Convolution1DVisualizer = () => {
   const minGridIndex = -(kernel.length - 1);
   const maxGridIndex = signal.length + kernel.length - 2;
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = (e: React.SubmitEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const sfElement = form.elements.namedItem('signal') as HTMLInputElement;
