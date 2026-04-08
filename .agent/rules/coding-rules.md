@@ -21,6 +21,11 @@ trigger: always_on
   - Extract algorithm logic into pure TypeScript utility functions or custom hooks (`/hooks`, `/utils`).
   - Separate "Visual" components from "Logic" controllers.
   - Avoid editing files shared across different visualisations when implementing one of the visualisations.
+- Theme Compatibility:
+  - All UI elements MUST be legible in both Light and Dark modes.
+  - USE design tokens/CSS variables (e.g., `var(--text)`, `var(--bg)`, `var(--accent)`) or Tailwind theme classes (e.g., `text-text`, `bg-bg`).
+  - AVOID hardcoded hex colors or standard Tailwind colors (e.g., `text-black`, `bg-white`) unless using `dark:` variants.
+  - Shadow/Depth: Do not rely solely on black shadows for depth, as they are invisible in dark mode. Use borders or background color shifts (`bg-accent/10`) for highlighting.
 
 ## Project Structure
 

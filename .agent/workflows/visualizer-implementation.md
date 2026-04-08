@@ -92,3 +92,4 @@ The `metadata` object in each `AlgorithmStep` is automatically rendered in the *
 - [ ] `renderStage` handles the visualization of `data`.
 - [ ] `metadata` provides live variable insights.
 - [ ] `highlightedLines` match the pseudocode array.
+- [ ] UI is verified for legibility in both **Light** and **Dark** modes.
