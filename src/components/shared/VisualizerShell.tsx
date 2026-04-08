@@ -8,8 +8,10 @@ import {
   Code2,
   Variable, 
   Info,
-  Settings2
+  Settings2,
+  Home
 } from 'lucide-react';
+import { Link } from 'react-router';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
 import { PseudocodeDisplay } from './PseudocodeDisplay';
 import { WatchWindow } from './WatchWindow';
@@ -96,6 +98,14 @@ export function VisualizerShell<T>({
       {/* Top Header/Bar */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border bg-bg/50 backdrop-blur-md z-10 w-full">
         <div className="flex items-center gap-4">
+          <Link
+            to="/"
+            className="p-2 rounded-lg hover:bg-accent/10 text-text transition-colors flex items-center justify-center border border-transparent hover:border-accent-border"
+            title="Back to Home"
+          >
+            <Home size={20} />
+          </Link>
+          <div className="w-px h-6 bg-border mx-1" />
           <h1 className="text-xl font-bold text-text-h tracking-tight">
             {title}
           </h1>
