@@ -112,7 +112,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="border-t border-border py-10 text-center text-sm text-text">
-        <p>© 2026 MediAlgObserver • Designed for Media Computing Students</p>
+        <p>Created for National University of Singapore (NUS) course CS2108: Introduction to Media Computing.</p>
       </footer>
     </div>
   );
