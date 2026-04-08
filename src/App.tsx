@@ -12,6 +12,7 @@ import {
 import { DemoVisualizer } from './components/visualizers/DemoVisualizer';
 import { motion } from 'motion/react';
 import { Convolution1DVisualizer } from './components/visualizers/Convolution1DVisualizer';
+import { LZWVisualizer } from './components/visualizers/LZWVisualizer';
 
 const Home = () => {
   const algorithms = [
@@ -131,7 +132,7 @@ function App() {
         <Route path="/convolution-2d" element={<div className="p-20 text-text-h">2D Convolution Visualizer coming soon...</div>} />
         <Route path="/huffman" element={<div className="p-20 text-text-h">Huffman Coding Visualizer coming soon...</div>} />
         <Route path="/rle" element={<div className="p-20 text-text-h">Run Length Encoding Visualizer coming soon...</div>} />
-        <Route path="/lzw" element={<div className="p-20 text-text-h">LZW Coding Visualizer coming soon...</div>} />
+        <Route path="/lzw" element={<LZWVisualizer />} />
         <Route path="/demo" element={<DemoVisualizer />} />
       </Routes>
     </BrowserRouter>
