@@ -10,6 +10,7 @@ import {
 import { DemoVisualizer } from './components/visualizers/DemoVisualizer';
 import { motion } from 'motion/react';
 import { Convolution1DVisualizer } from './components/visualizers/Convolution1DVisualizer';
+import { Convolution2DVisualizer } from './components/visualizers/Convolution2DVisualizer';
 import { LZWVisualizer } from './components/visualizers/LZWVisualizer';
 import { HuffmanVisualizer } from './components/visualizers/HuffmanVisualizer';
 
@@ -114,7 +115,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/convolution-1d" element={<Convolution1DVisualizer />} />
-        <Route path="/convolution-2d" element={<div className="p-20 text-text-h">2D Convolution Visualizer coming soon...</div>} />
+        <Route path="/convolution-2d" element={<Convolution2DVisualizer />} />
         <Route path="/huffman" element={<HuffmanVisualizer />} />
         <Route path="/lzw" element={<LZWVisualizer />} />
         <Route path="/demo" element={<DemoVisualizer />} />
