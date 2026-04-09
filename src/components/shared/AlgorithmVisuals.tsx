@@ -1,21 +1,6 @@
 import { motion } from 'motion/react';
 
 // Visual Components for each algorithm
-export const WavesVisual = () => (
-  <svg width="120" height="60" viewBox="0 0 120 60" className="text-accent opacity-70 group-hover:opacity-100 transition-opacity">
-    <path
-      d="M 0 30 Q 15 10 30 30 T 60 30 T 90 30 T 120 30"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      className="animate-[pulse_3s_ease-in-out_infinite]"
-    />
-    <circle cx="30" cy="30" r="3" fill="currentColor" />
-    <circle cx="60" cy="30" r="3" fill="currentColor" />
-    <circle cx="90" cy="30" r="3" fill="currentColor" />
-  </svg>
-);
-
 export const Convolution1DVisual = () => (
   <div className="flex items-end gap-1 h-12">
     {[4, 8, 12, 6, 10, 5, 9, 3].map((h, i) => (
@@ -63,20 +48,6 @@ export const HuffmanVisual = () => (
     <circle cx="10" cy="50" r="4" fill="currentColor" />
     <circle cx="30" cy="50" r="4" fill="currentColor" />
   </svg>
-);
-
-export const RLEVisual = () => (
-  <div className="flex gap-1 font-mono text-xs items-center">
-    <div className="flex flex-col items-center">
-      <span className="text-accent/50">AAAA</span>
-      <span className="text-accent font-bold">4A</span>
-    </div>
-    <div className="w-2 h-px bg-accent/20" />
-    <div className="flex flex-col items-center">
-      <span className="text-accent/50">BBB</span>
-      <span className="text-accent font-bold">3B</span>
-    </div>
-  </div>
 );
 
 export const LZWVisual = () => (

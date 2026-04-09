@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ChevronLeft, 
@@ -8,8 +8,10 @@ import {
   Code2,
   Variable, 
   Info,
-  Settings2
+  Settings2,
+  Home
 } from 'lucide-react';
+import { Link } from 'react-router';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
 import { PseudocodeDisplay } from './PseudocodeDisplay';
 import { WatchWindow } from './WatchWindow';
@@ -43,15 +45,67 @@ export function VisualizerShell<T>({
   } = useAlgorithm(steps);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [sidebarWidth, setSidebarWidth] = useState(450);
+  const isResizing = useRef(false);
+
+  // We define these handlers first to avoid hoisting issues, but since they 
+  // need to refer to each other or state, we use the callback pattern carefully.
+  
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isResizing.current) return;
+    
+    // Calculate new width: viewport width - mouse X position
+    // User requested NO min/max constraints
+    const newWidth = window.innerWidth - e.clientX;
+    setSidebarWidth(newWidth);
+  }, []);
+
+  const stopResizingRef = useRef<() => void>(() => {});
+
+  const stopResizing = useCallback(() => {
+    isResizing.current = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', stopResizingRef.current);
+    document.body.style.cursor = 'default';
+    document.body.style.userSelect = 'auto';
+  }, [handleMouseMove]);
+
+  useEffect(() => {
+    stopResizingRef.current = stopResizing;
+  }, [stopResizing]);
+
+  const startResizing = useCallback(() => {
+    isResizing.current = true;
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', stopResizing);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, [handleMouseMove, stopResizing]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', stopResizing);
+    };
+  }, [handleMouseMove, stopResizing]);
 
   // Calculate progress percentage for the custom slider track
   const progressPercent = (currentStepIndex / (totalSteps - 1)) * 100;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] w-full bg-bg transition-colors duration-300 overflow-hidden">
+    <div className="flex flex-col h-full w-full bg-bg transition-colors duration-300 overflow-hidden">
       {/* Top Header/Bar */}
       <header className="flex items-center justify-between px-6 py-3 border-b border-border bg-bg/50 backdrop-blur-md z-10 w-full">
         <div className="flex items-center gap-4">
+          <Link
+            to="/"
+            className="p-2 rounded-lg hover:bg-accent/10 text-text transition-colors flex items-center justify-center border border-transparent hover:border-accent-border"
+            title="Back to Home"
+          >
+            <Home size={20} />
+          </Link>
+          <div className="w-px h-6 bg-border mx-1" />
           <h1 className="text-xl font-bold text-text-h tracking-tight">
             {title}
           </h1>
@@ -88,7 +142,6 @@ export function VisualizerShell<T>({
           <div className="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
             <motion.div
               key={currentStepIndex}
-              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="w-full h-full flex items-center justify-center"
             >
@@ -163,46 +216,54 @@ export function VisualizerShell<T>({
         {/* Sidebar */}
         <AnimatePresence>
           {isSidebarOpen && (
-            <motion.aside
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 450, opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-              className="border-l border-border bg-bg flex flex-col shadow-2xl relative z-20 overflow-hidden"
-            >
-              {/* Stacked Layout Header */}
-              <div className="px-6 py-4 border-b border-border bg-text-h/5 flex items-center gap-2">
-                <Code2 size={18} className="text-accent" />
-                <h2 className="text-sm font-bold text-text-h uppercase tracking-wider mb-0">Algorithm Details</h2>
-              </div>
+            <>
+              {/* Resize Handle */}
+              <div
+                onMouseDown={startResizing}
+                className="w-1 hover:w-1.5 bg-border hover:bg-accent cursor-col-resize transition-all z-30 shrink-0"
+                title="Drag to resize"
+              />
+              <motion.aside
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: sidebarWidth, opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                className="border-l border-border bg-bg flex flex-col shadow-2xl relative z-20 overflow-hidden shrink-0"
+              >
+                {/* Stacked Layout Header */}
+                <div className="px-6 py-4 border-b border-border bg-text-h/5 flex items-center gap-2">
+                  <Code2 size={18} className="text-accent" />
+                  <h2 className="text-sm font-bold text-text-h uppercase tracking-wider mb-0">Algorithm Details</h2>
+                </div>
 
-              <div className="flex-1 overflow-y-auto p-0 flex flex-col divide-y divide-border custom-scrollbar">
-                {/* Pseudocode Section (Prioritized) */}
-                <section className="flex-[2] flex flex-col min-h-0 bg-code-bg/10">
-                  <div className="px-6 py-3 flex items-center gap-2 text-text opacity-70 sticky top-0 bg-bg/80 backdrop-blur-sm z-10 border-b border-border/10">
-                    <Code2 size={16} />
-                    <span className="text-xs font-bold uppercase tracking-tight">Pseudocode</span>
-                  </div>
-                  <div className="p-4 flex-1">
-                    <PseudocodeDisplay 
-                      code={pseudocode} 
-                      highlightedLines={currentStep.highlightedLines} 
-                    />
-                  </div>
-                </section>
+                <div className="flex-1 overflow-y-auto p-0 flex flex-col divide-y divide-border custom-scrollbar">
+                  {/* Pseudocode Section (Prioritized) */}
+                  <section className="flex-2 flex flex-col min-h-0 bg-code-bg/10">
+                    <div className="px-6 py-3 flex items-center gap-2 text-text opacity-70 sticky top-0 bg-bg/80 backdrop-blur-sm z-10 border-b border-border/10">
+                      <Code2 size={16} />
+                      <span className="text-xs font-bold uppercase tracking-tight">Pseudocode</span>
+                    </div>
+                    <div className="p-4 flex-1">
+                      <PseudocodeDisplay 
+                        code={pseudocode} 
+                        highlightedLines={currentStep.highlightedLines} 
+                      />
+                    </div>
+                  </section>
 
-                {/* Variables Section */}
-                <section className="flex-1 flex flex-col min-h-0">
-                  <div className="px-6 py-3 flex items-center gap-2 text-text opacity-70 sticky top-0 bg-bg/80 backdrop-blur-sm z-10 border-b border-border/10">
-                    <Variable size={16} />
-                    <span className="text-xs font-bold uppercase tracking-tight">Watch Variables</span>
-                  </div>
-                  <div className="p-4 flex-1">
-                    <WatchWindow metadata={currentStep.metadata} />
-                  </div>
-                </section>
-              </div>
-            </motion.aside>
+                  {/* Variables Section */}
+                  <section className="flex-1 flex flex-col min-h-0">
+                    <div className="px-6 py-3 flex items-center gap-2 text-text opacity-70 sticky top-0 bg-bg/80 backdrop-blur-sm z-10 border-b border-border/10">
+                      <Variable size={16} />
+                      <span className="text-xs font-bold uppercase tracking-tight">Watch Variables</span>
+                    </div>
+                    <div className="p-4 flex-1">
+                      <WatchWindow metadata={currentStep.metadata} />
+                    </div>
+                  </section>
+                </div>
+              </motion.aside>
+            </>
           )}
         </AnimatePresence>
       </div>
