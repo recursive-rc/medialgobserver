@@ -1,12 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { ThemeToggle } from './components/shared/ThemeToggle';
 import { AlgorithmCard } from './components/shared/AlgorithmCard';
-import { 
-  WavesVisual, 
+import {  
   Convolution1DVisual, 
   Convolution2DVisual, 
   HuffmanVisual, 
-  RLEVisual,
   LZWVisual 
 } from './components/shared/AlgorithmVisuals';
 import { DemoVisualizer } from './components/visualizers/DemoVisualizer';
@@ -17,12 +15,6 @@ import { HuffmanVisualizer } from './components/visualizers/HuffmanVisualizer';
 
 const Home = () => {
   const algorithms = [
-    {
-      title: 'Discretizing Waves',
-      description: 'Visualize the process of sampling and quantizing continuous analog waves into digital signals.',
-      path: '/waves',
-      visual: <WavesVisual />,
-    },
     {
       title: '1D Convolution',
       description: 'Explore linear convolution in one dimension, essential for filtering and processing discrete signals.',
@@ -40,12 +32,6 @@ const Home = () => {
       description: 'Learn about lossless data compression using variable-length prefix codes and binary trees.',
       path: '/huffman',
       visual: <HuffmanVisual />,
-    },
-    {
-      title: 'Run Length Encoding',
-      description: 'Visualize how consecutive identical symbols are compressed into a count and a single symbol.',
-      path: '/rle',
-      visual: <RLEVisual />,
     },
     {
       title: 'LZW Coding',
@@ -127,12 +113,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Placeholder routes for future visualizers */}
-        <Route path="/waves" element={<div className="p-20 text-text-h">Wave Discretization Visualizer coming soon...</div>} />
         <Route path="/convolution-1d" element={<Convolution1DVisualizer />} />
         <Route path="/convolution-2d" element={<div className="p-20 text-text-h">2D Convolution Visualizer coming soon...</div>} />
         <Route path="/huffman" element={<HuffmanVisualizer />} />
-        <Route path="/rle" element={<div className="p-20 text-text-h">Run Length Encoding Visualizer coming soon...</div>} />
         <Route path="/lzw" element={<LZWVisualizer />} />
         <Route path="/demo" element={<DemoVisualizer />} />
       </Routes>
