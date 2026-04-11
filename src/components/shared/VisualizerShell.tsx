@@ -16,14 +16,19 @@ import { useAlgorithm } from '../../hooks/useAlgorithm';
 import { PseudocodeDisplay } from './PseudocodeDisplay';
 import { WatchWindow } from './WatchWindow';
 import { ThemeToggle } from './ThemeToggle';
+import { InputEditorModal } from './InputEditorModal';
 import type { AlgorithmStep } from '../../types/algorithm';
+import type { InputEditorConfig } from '../../types/inputEditor';
 
 interface VisualizerShellProps<T> {
   title: string;
   steps: AlgorithmStep<T>[];
   pseudocode: string[];
   renderStage: (data: T, stepIndex: number) => ReactNode;
+  /** @deprecated Use `inputConfig` instead for built-in modal support. */
   onEditInput?: () => void;
+  /** When provided, the shell renders a standardised input-editing modal. */
+  inputConfig?: InputEditorConfig;
 }
 
 export function VisualizerShell<T>({ 
@@ -31,8 +36,11 @@ export function VisualizerShell<T>({
   steps, 
   pseudocode, 
   renderStage,
-  onEditInput
+  onEditInput,
+  inputConfig
 }: VisualizerShellProps<T>) {
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editModalKey, setEditModalKey] = useState(0);
   const {
     currentStepIndex,
     currentStep,
@@ -112,9 +120,17 @@ export function VisualizerShell<T>({
         </div>
         
         <div className="flex items-center gap-3">
-          {onEditInput && (
+          {/* Edit Input button: supports both legacy onEditInput and new inputConfig */}
+          {(onEditInput || (inputConfig && !inputConfig.disabled)) && (
             <button
-              onClick={onEditInput}
+              onClick={() => {
+                if (inputConfig && !inputConfig.disabled) {
+                  setEditModalKey(k => k + 1);
+                  setShowEditModal(true);
+                } else if (onEditInput) {
+                  onEditInput();
+                }
+              }}
               className="p-2 rounded-lg hover:bg-accent/10 text-text transition-colors flex items-center gap-2 group border border-transparent hover:border-accent-border"
               title="Edit Algorithm Input"
             >
@@ -267,6 +283,16 @@ export function VisualizerShell<T>({
           )}
         </AnimatePresence>
       </div>
+
+      {/* Built-in Input Editor Modal (when inputConfig is provided) */}
+      {inputConfig && (
+        <InputEditorModal
+          key={editModalKey}
+          config={inputConfig}
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
     </div>
   );
 }
