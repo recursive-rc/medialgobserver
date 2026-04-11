@@ -187,7 +187,7 @@ export const Convolution1DVisualizer = () => {
                 maxGridIndex={maxGridIndex}
               />
 
-              <div className="h-px bg-border/50 my-6 flex items-center justify-center relative">
+              <div className="h-px bg-border/50 my-6 relative">
                 <AnimatePresence>
                   {getOverlappingProducts(data).map((prod) => (
                     <motion.div 
@@ -195,9 +195,11 @@ export const Convolution1DVisualizer = () => {
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      // text-black forces the text to be visible in all modes, as requested.
-                      className="absolute bg-accent text-black px-3 py-1 rounded-full text-xs font-bold border border-accent/20 z-10 shadow-lg"
-                      style={{ left: `calc(3rem * ${prod.k - minGridIndex + 0.5} + 3rem)`, transform: 'translateX(-50%)' }}
+                      className="absolute bg-accent text-text-h px-3 py-1 rounded-full text-xs font-bold border border-accent/20 z-10 shadow-lg"
+                      style={{ 
+                        left: `calc(3rem * ${prod.k - minGridIndex + 0.5})`, 
+                        transform: 'translateX(-50%)' 
+                      }}
                     >
                       {prod.val}
                     </motion.div>
@@ -265,7 +267,7 @@ export const Convolution1DVisualizer = () => {
                   </button>
                   <button 
                     type="submit"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-accent text-white hover:opacity-90 transition-opacity"
+                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-accent text-text-h hover:opacity-90 transition-opacity"
                   >
                     Save & Restart
                   </button>
